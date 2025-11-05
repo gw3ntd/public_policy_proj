@@ -149,3 +149,85 @@ all_df = pd.merge(all_1, all_2, on='State', how='outer')
 all_df.to_csv('combo.csv', index=False)
 
 
+##########################################################################################################################################
+##########################################################################################################################################
+
+# SASUMMARY
+
+# GDP
+
+GDP = pd.read_csv('gdp.csv')
+GDP.drop(['GeoFips', '1998', '1999', '2000', '2001', '2002', 
+          '2003', '2004', '2005', '2006', '2007', '2008',
+          '2009', '2010', '2011', '2012', '2013', '2014',
+          '2015', '2016', '2017', '2018', '2024'], axis=1, inplace=True)
+GDP.drop([0], axis=0, inplace=True)
+GDP.rename(columns={'GeoName': 'State'}, inplace=True)
+GDP['avg GDP from 2019-2023'] = GDP[['2019', '2020', '2021', '2022', '2023']].mean(axis=1)
+GDP.drop(['2019', '2020', '2021', '2022', '2023'], axis=1, inplace=True)
+
+# print(GDP.head())
+
+# Real GDP
+
+realGDP = pd.read_csv('realGDP.csv')
+realGDP.drop(['GeoFips', '1998', '1999', '2000', '2001', '2002', 
+          '2003', '2004', '2005', '2006', '2007', '2008',
+          '2009', '2010', '2011', '2012', '2013', '2014',
+          '2015', '2016', '2017', '2018', '2024'], axis=1, inplace=True)
+realGDP.drop([0], axis=0, inplace=True)
+realGDP.rename(columns={'GeoName': 'State'}, inplace=True)
+realGDP['avg realGDP from 2019-2023'] = realGDP[['2019', '2020', '2021', '2022', '2023']].mean(axis=1)
+realGDP.drop(['2019', '2020', '2021', '2022', '2023'], axis=1, inplace=True)
+
+# print(realGDP.head())
+
+gdp_df = pd.merge(GDP, realGDP, on='State', how='outer')
+
+all_df = pd.merge(all_df, gdp_df, on='State', how='outer')
+
+# print(all_df.head())
+
+all_df.to_csv('combo.csv', index=False)
+
+##########################################################################################################################################
+##########################################################################################################################################
+
+# gun violence death rate
+
+
+nine = pd.read_csv('2019.csv')
+nine.rename(columns={'Firearms Death Rate per 100,000': '19'}, inplace=True)
+
+zero = pd.read_csv('2020.csv')
+zero.rename(columns={'Firearms Death Rate per 100,000': '20'}, inplace=True)
+
+one = pd.read_csv('2021.csv')
+one.rename(columns={'Firearms Death Rate per 100,000': '21'}, inplace=True)
+
+two = pd.read_csv('2022.csv')
+two.rename(columns={'Firearms Death Rate per 100,000': '22'}, inplace=True)
+
+three = pd.read_csv('2023.csv')
+three.rename(columns={'Firearms Death Rate per 100,000': '23'}, inplace=True)
+
+nine_zero = pd.merge(nine, zero, on='Location', how='outer')
+one_two = pd.merge(one, two, on='Location', how='outer')
+nine_two = pd.merge(nine_zero, one_two, on='Location', how='outer')
+
+target = pd.merge(nine_two, three, on='Location', how='outer')
+
+target['g_va death rate'] = target[['19', '20', '21', '22', '23']].mean(axis=1)
+target.drop(['19', '20', '21', '22', '23'], axis=1, inplace=True)
+
+target.rename(columns={'Location': 'State'}, inplace=True)
+
+# print(target.head())
+
+all_df = pd.merge(all_df, target, on='State', how='outer')
+
+# print(all_df.head())
+
+all_df.to_csv('combo.csv', index=False)
+
+print(all_df.head())
