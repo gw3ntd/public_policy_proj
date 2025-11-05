@@ -28,3 +28,6 @@ I am using machine learning methods (such as feature importance) to find trends 
 - Research ML methods to use
 - Apply ML methods
 - Finish paper
+
+### Citations
+HDPulse: An Ecosystem of Minority Health and Health Disparities Resources. National Institute on Minority Health and Health Disparities. Created 11/5/2025. Available from https://hdpulse.nimhd.nih.gov
