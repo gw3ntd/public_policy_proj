@@ -31,3 +31,7 @@ I am using machine learning methods (such as feature importance) to find trends 
 
 ### Citations
 HDPulse: An Ecosystem of Minority Health and Health Disparities Resources. National Institute on Minority Health and Health Disparities. Created 11/5/2025. Available from https://hdpulse.nimhd.nih.gov
+
+KFF analysis of Centers for Disease Control and Prevention (CDC), National Center for Health Statistics. Multiple Cause of Death 1999-2023 on CDC WONDER Online Database. Data are from the Multiple Cause of Death Files, 1999-2023, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. Accessed at https://wonder.cdc.gov/mcd-icd10-expanded.html on January 30, 2025.
+
+U.S. Bureau of Economic Analysis, "SASUMMARY State annual summary statistics: personal income, GDP, consumer spending, price indexes, and employment" (accessed Wednesday, November 5, 2025).
