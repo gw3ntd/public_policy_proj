@@ -1,5 +1,6 @@
 ﻿State,FIPS,Value (Percent),People (Education: At Least Bachelor's Degree),Rank within US (of 52 states)
 "United States",00000,35.0,79954302,"N/A"
+"Puerto Rico",72001,29.1,702653,"43"
 "West Virginia",54000,23.3,295541,"52"
 "Mississippi",28000,24.2,475997,"51"
 "Arkansas",05000,25.1,513221,"50"
@@ -9,7 +10,6 @@
 "Alabama",01000,27.8,957081,"45"
 "Oklahoma",40000,27.8,733793,"45"
 "Indiana",18000,28.8,1313086,"44"
-"Puerto Rico",72001,29.1,702653,"43"
 "Wyoming",56000,29.9,118336,"42"
 "New Mexico",35000,30.2,438228,"41"
 "Tennessee",47000,30.4,1460501,"40"
