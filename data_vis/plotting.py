@@ -14,6 +14,11 @@ df = pd.read_csv('eda/percents.csv')
 
 # all of the columns listed out for ease of reference
 
+print(df['State'])
+print(df.head())
+df.drop([8], axis=0, inplace=True)
+print(df['State'])
+
 var = ['Fams Below Pov %', 'Ppl (<150% Of Pov) %', 'Ppl (Below Poverty) %', 
        'Below 9th Ed %', 'Below HS Ed %', 'Below Bach Ed %', 
        'Median Fam Income (Dollars)', 'Median Household Income (Dollars)', 
