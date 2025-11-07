@@ -3,21 +3,21 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 
-
-# df_target = pd.read_csv('eda/percents.csv')
-
-# y = df_target[['g_va death rate']]
-
 x1 = pd.read_csv('eda/x1.csv')
 
-# print(x1.head())
+x2 = pd.read_csv('eda/x2.csv')
 
-matrix = x1.corr()
-
-print(matrix)
+x3 = pd.read_csv('eda/x3.csv')
 
 
-plt.figure(figsize=(10,7))
-sns.heatmap(matrix, annot=True, cmap="Spectral", fmt=".2f", linewidths=0.5)
-plt.title("Correlation Heatmap")
-plt.show()
+def make_heatmap(x, cmap='Spectral'):
+    matrix = x.corr()
+    plt.figure(figsize=(10,7))
+    sns.heatmap(matrix, annot=True, cmap=cmap, fmt=".2f", linewidths=0.5)
+    plt.title("Correlation Heatmap")
+    plt.tight_layout()
+    plt.show()
+
+make_heatmap(x1)
+make_heatmap(x2)
+make_heatmap(x3)
