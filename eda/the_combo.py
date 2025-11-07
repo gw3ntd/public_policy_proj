@@ -231,3 +231,10 @@ all_df = pd.merge(all_df, target, on='State', how='outer')
 all_df.to_csv('combo.csv', index=False)
 
 print(all_df.head())
+
+new_df = all_df.drop(['Families (Below Poverty)', 'People (<150% Of Poverty)', 
+            'People (Below Poverty)', 'People (Education: Less Than 9th Grade)', 
+            'People(Education: Less Than High School)', "People (Education: At Least Bachelor's Degree)", 
+            'Households (language Isolation)', 'People (Unemployed)'], axis=1)
+
+new_df.to_csv('percents.csv', index=False)
