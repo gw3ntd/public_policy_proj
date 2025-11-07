@@ -14,10 +14,10 @@ df = pd.read_csv('eda/percents.csv')
 
 # all of the columns listed out for ease of reference
 
-print(df['State'])
-print(df.head())
+# print(df['State'])
+# print(df.head())
 df.drop([8], axis=0, inplace=True)
-print(df['State'])
+# print(df['State'])
 
 var = ['Fams Below Pov %', 'Ppl (<150% Of Pov) %', 'Ppl (Below Poverty) %', 
        'Below 9th Ed %', 'Below HS Ed %', 'Below Bach Ed %', 
@@ -38,17 +38,17 @@ for col in var:
 
 
 # first dataframe that only has the %s
-X_1 = df.drop(['g_va death rate', 'State', 'Median Fam Income (Dollars)', 'Median Household Income (Dollars)',
+X_1 = df.drop(['State', 'Median Fam Income (Dollars)', 'Median Household Income (Dollars)',
                'Vast Majority Income (Dollars)', 'avg GDP from 2019-2023', 'avg realGDP from 2019-2023'], axis=1)
 
 # second dataframe that only has the $
 X_2 = df.drop(['Fams Below Pov %', 'Ppl (<150% Of Pov) %', 'Ppl (Below Poverty) %', 
                 'Below 9th Ed %', 'Below HS Ed %', 'Below Bach Ed %', 'Language Isolation %', 'Unemployed %',
-                'g_va death rate', 'State', 'avg GDP from 2019-2023', 'avg realGDP from 2019-2023'], axis=1)
+                  'State', 'avg GDP from 2019-2023', 'avg realGDP from 2019-2023'], axis=1)
 
 
 # third dataframe that deals with gdp
-X_3 = df[['avg GDP from 2019-2023', 'avg realGDP from 2019-2023']]
+X_3 = df[['avg GDP from 2019-2023', 'avg realGDP from 2019-2023', 'g_va death rate']]
 
 # target, aka gun violence death rate
 y = df[['g_va death rate']]
@@ -60,12 +60,15 @@ def plot_all(X, y, c='indigo'):
     versus the target given a dataframe X
     '''
     for feature in X:
-        plt.figure(figsize=(8, 6))
-        plt.scatter(x=X[feature], y=y, c=c)
-        plt.xlabel(str(feature))
-        plt.ylabel('gun violence death rate')
-        plt.title(str(feature) + ' vs. Gun Violence Death Rate')
-        plt.show()
+        if feature == 'g_va death rate':
+            continue
+        else:
+            plt.figure(figsize=(8, 6))
+            plt.scatter(x=X[feature], y=y, c=c)
+            plt.xlabel(str(feature))
+            plt.ylabel('gun violence death rate')
+            plt.title(str(feature) + ' vs. Gun Violence Death Rate')
+            plt.show()
 
 
 
@@ -73,19 +76,23 @@ scaler = StandardScaler()
 
 
 # after visualization, it seems as if X_2 needs to be scaled
-X_scaled = scaler.fit_transform(X_2)
+X_2[['Median Fam Income (Dollars)']] = scaler.fit_transform(X_2[['Median Fam Income (Dollars)']])
+X_2[['Median Household Income (Dollars)']] = scaler.fit_transform(X_2[['Median Household Income (Dollars)']])
+X_2[['Vast Majority Income (Dollars)']] = scaler.fit_transform(X_2[['Vast Majority Income (Dollars)']])
 
-X_scaled = pd.DataFrame(X_scaled, columns=['Median Fam Income (Dollars)', 'Median Household Income (Dollars)',
-                                           'Vast Majority Income (Dollars)'])
 
+# print(X_2.head())
 
 # a ln transformation did not do much
-X_3['ln_GDP'] = np.log(X_3['avg GDP from 2019-2023'])
-
-X_3['ln_realGDP'] = np.log(X_3['avg realGDP from 2019-2023'])
+X_3['avg GDP from 2019-2023'] = scaler.fit_transform(X_3[['avg GDP from 2019-2023']])
+X_3['avg realGDP from 2019-2023'] = scaler.fit_transform(X_3[['avg realGDP from 2019-2023']])
 
 
 plot_all(X_1, y, c='chocolate')
-plot_all(X_scaled, y, c='lightseagreen')
+plot_all(X_2, y, c='lightseagreen')
 plot_all(X_3, y)
+
+X_1.to_csv('eda/x1.csv', index=False)
+X_2.to_csv('eda/x2.csv', index=False)
+X_3.to_csv('eda/x3.csv', index=False)
 
