@@ -20,7 +20,7 @@ df.drop([8], axis=0, inplace=True)
 # print(df['State'])
 
 var = ['Fams Below Pov %', 'Ppl (<150% Of Pov) %', 'Ppl (Below Poverty) %', 
-       'Below 9th Ed %', 'Below HS Ed %', 'Below Bach Ed %', 
+       'Below 9th Ed %', 'Below HS Ed %', "% At Least Bachelor's Degree", 
        'Median Fam Income (Dollars)', 'Median Household Income (Dollars)', 
        'Vast Majority Income (Dollars)', 'Language Isolation %', 'Unemployed %', 
        'avg GDP from 2019-2023', 'avg realGDP from 2019-2023']
@@ -43,7 +43,7 @@ X_1 = df.drop(['State', 'Median Fam Income (Dollars)', 'Median Household Income 
 
 # second dataframe that only has the $
 X_2 = df.drop(['Fams Below Pov %', 'Ppl (<150% Of Pov) %', 'Ppl (Below Poverty) %', 
-                'Below 9th Ed %', 'Below HS Ed %', 'Below Bach Ed %', 'Language Isolation %', 'Unemployed %',
+                'Below 9th Ed %', 'Below HS Ed %', "% At Least Bachelor's Degree", 'Language Isolation %', 'Unemployed %',
                   'State', 'avg GDP from 2019-2023', 'avg realGDP from 2019-2023'], axis=1)
 
 

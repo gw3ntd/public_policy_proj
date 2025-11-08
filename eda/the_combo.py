@@ -82,7 +82,7 @@ below_hs.rename(columns={'Value (Percent)': 'Below HS Ed %'}, inplace=True)
 bach = pd.read_csv('bach_ed.csv')
 bach.drop(['FIPS', 'Rank within US (of 52 states)'], axis=1, inplace=True)
 bach.drop([0, 1], axis=0, inplace=True)
-bach.rename(columns={'Value (Percent)': 'Below Bach Ed %'}, inplace=True)
+bach.rename(columns={'Value (Percent)': "% At Least Bachelor's Degree"}, inplace=True)
 
 # print(bach.head())
 
