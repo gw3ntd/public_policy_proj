@@ -24,8 +24,6 @@ I am using machine learning methods (such as feature importance) to find trends 
 * Finishing my research paper
 
 ## To-Do:
-- Finish combining datasets
-- Research ML methods to use
 - Apply ML methods
 - Finish paper
 
