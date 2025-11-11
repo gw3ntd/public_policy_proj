@@ -10,7 +10,7 @@ x2 = pd.read_csv('eda/x2.csv')
 x3 = pd.read_csv('eda/x3.csv')
 
 
-def make_heatmap(x, cmap='Spectral'):
+def make_heatmap(x, cmap='summer'):
     matrix = x.corr()
     plt.figure(figsize=(10,7))
     sns.heatmap(matrix, annot=True, cmap=cmap, fmt=".2f", linewidths=0.5)
