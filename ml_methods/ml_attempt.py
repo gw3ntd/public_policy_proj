@@ -8,15 +8,22 @@ from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 
-df = pd.read_csv('eda/final_df.csv')
+'''
+In this file, I am attempting to find what features
+find gun violence death rate the best as well as 
+finding feature importance
+'''
 
+df = pd.read_csv('eda/final_df.csv')
 
 pd.set_option('display.max_columns', None)
 
-# print(df.head())
-
-
 def get_importance(df, model, color='purple'):
+    '''
+    This function finds the importance score
+    of each feature given a certain model. It
+    also can generate a graph. 
+    '''
 
     X = df.drop(['g_va death rate'], axis=1)
     y = df['g_va death rate']
@@ -45,46 +52,77 @@ def get_importance(df, model, color='purple'):
     plt.tight_layout()
     plt.show()
 
-get_importance(df, DecisionTreeRegressor(random_state=42))
-get_importance(df, RandomForestRegressor(random_state=42), color='teal')
-get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')
-
-'''
-Mean r^2 score accross 5 folds for DecisionTreeRegressor(random_state=42): 0.236
-All fold scores for DecisionTreeRegressor(random_state=42): [ 0.23092503  0.77619647  0.7652932   0.29895134 -0.89273118]
-
-Fams Below Pov %, Score: 0.07457
-Ppl (<150% Of Pov) %, Score: 0.00374
-Ppl (Below Poverty) %, Score: 0.04395
-% At Least Bachelor's Degree, Score: 0.47181
-Median Fam Income (Scaled), Score: 0.02827
-Median Household Income (Scaled), Score: 0.16602
-Vast Majority Income (Scaled), Score: 0.00103
-Language Isolation %, Score: 0.21060
+# get_importance(df, DecisionTreeRegressor(random_state=42))
+# get_importance(df, RandomForestRegressor(random_state=42), color='teal')
+# get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')
 
 
-Mean r^2 score accross 5 folds for RandomForestRegressor(random_state=42): 0.491
-All fold scores for RandomForestRegressor(random_state=42): [ 0.4201826   0.64573927  0.7237883   0.69102035 -0.02674616]
+new = df.drop(['g_va death rate'], axis=1)
+columns = new.columns.tolist()
 
-Fams Below Pov %, Score: 0.05428
-Ppl (<150% Of Pov) %, Score: 0.03473
-Ppl (Below Poverty) %, Score: 0.03383
-% At Least Bachelor's Degree, Score: 0.30526
-Median Fam Income (Scaled), Score: 0.18209
-Median Household Income (Scaled), Score: 0.11751
-Vast Majority Income (Scaled), Score: 0.11447
-Language Isolation %, Score: 0.15783
+# creating a list of every possible combination of four variables
+combos = []
+for i in range(len(columns)):
+    for j in range(i + 1, len(columns)):
+        for k in range(j + 1, len(columns)):
+            for l in range(k + 1, len(columns)):
+                combos.append([columns[i], columns[j], columns[k], columns[l]])
 
 
-Mean r^2 score accross 5 folds for GradientBoostingRegressor(random_state=42): 0.432
-All fold scores for GradientBoostingRegressor(random_state=42): [ 0.2980692   0.6816932   0.73679643  0.70031228 -0.25924952]
+# creating a list of every possible combination of three variables
+other_combo = []
+for i in range(len(columns)):
+    for j in range(i + 1, len(columns)):
+        for k in range(j + 1, len(columns)):
+            other_combo.append([columns[i], columns[j], columns[k]])
 
-Fams Below Pov %, Score: 0.03618
-Ppl (<150% Of Pov) %, Score: 0.03724
-Ppl (Below Poverty) %, Score: 0.02374
-% At Least Bachelor's Degree, Score: 0.39926
-Median Fam Income (Scaled), Score: 0.10813
-Median Household Income (Scaled), Score: 0.13981
-Vast Majority Income (Scaled), Score: 0.06105
-Language Isolation %, Score: 0.19459
-'''
+
+def all_iterations(df, combos):
+    '''
+    This function takes in all of these possible combinations
+    and finds the 5-fold cross validation score of a 
+    random forest model for each. It adds each combonation
+    of variables with a cv score above 0.5 to a list.
+    '''
+    idx_list = []
+    new = df.drop(['g_va death rate'], axis=1)
+    for i in range(len(combos)):
+        X = new[combos[i]]
+        y = df['g_va death rate']
+        rf = RandomForestRegressor()
+        scores = cross_val_score(rf, X, y, cv=5, scoring='r2')
+        if np.mean(scores) >= 0.5:
+            idx_list.append(i)
+            # print(f"{i}: {combos[i]}")
+            # print(f"Mean r^2 score accross 5 folds for {rf}: {np.mean(scores):.3f}")
+            # print(f"All fold scores for {rf}: {scores}\n")
+    return idx_list
+
+L1 = all_iterations(df, combos)
+L2 = all_iterations(df, other_combo)
+
+# print(L1)
+# print(L2)
+
+def div_importance(df, combos, idx):
+    '''
+    This function finds the feature importance
+    for all the combos that had a 5-fold 
+    cv score over 0.5 and prints them
+    out alongside their corresponding
+    index in the combos list
+    '''
+    new = df.drop(['g_va death rate'], axis=1)
+    rf = RandomForestRegressor()
+    for num in idx:
+        X = new[combos[num]]
+        y = df['g_va death rate']
+        rf.fit(X, y)
+        importance = rf.feature_importances_
+        print('\n' + str(num))
+        for i, v in enumerate(importance):
+            print(f'{combos[num][i]}, Score: {v:.5f}')
+
+div_importance(df, combos, L1)
+div_importance(df, other_combo, L2)
+

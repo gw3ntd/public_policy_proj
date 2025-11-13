@@ -9,8 +9,10 @@ x2 = pd.read_csv('eda/x2.csv')
 
 x3 = pd.read_csv('eda/x3.csv')
 
+final = pd.read_csv('eda/final_df.csv')
 
-def make_heatmap(x, cmap='summer'):
+
+def make_heatmap(x, cmap='PiYG'):
     matrix = x.corr()
     plt.figure(figsize=(10,7))
     sns.heatmap(matrix, annot=True, cmap=cmap, fmt=".2f", linewidths=0.5)
@@ -18,6 +20,7 @@ def make_heatmap(x, cmap='summer'):
     plt.tight_layout()
     plt.show()
 
-make_heatmap(x1)
-make_heatmap(x2)
-make_heatmap(x3)
+# make_heatmap(x1)
+# make_heatmap(x2)
+# make_heatmap(x3)
+make_heatmap(final)
