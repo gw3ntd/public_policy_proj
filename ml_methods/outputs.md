@@ -1,5 +1,5 @@
 # Output Log
-### Here, I am keeping track of the current outputs of my functions in the 'ml_attempt.py' file. 
+*Here, I am keeping track of the current outputs of my functions in the 'ml_attempt.py' file.* 
 
 ## get_importance(df, model, color='purple')
 I originally made this function to get the importance scores for each feature and compare the 
@@ -12,8 +12,11 @@ I tried the following:
 - 'get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')'
 
 ### Output:
-- Mean r^2 score accross 5 folds for DecisionTreeRegressor(random_state=42): 0.236
-- All fold scores for DecisionTreeRegressor(random_state=42): [ 0.23092503  0.77619647  0.7652932   0.29895134 -0.89273118]
+**Decision Tree**
+
+Mean r^2 score accross 5 folds for DecisionTreeRegressor(random_state=42): 0.236
+
+All fold scores for DecisionTreeRegressor(random_state=42): [ 0.23092503  0.77619647  0.7652932   0.29895134 -0.89273118]
 
 - Fams Below Pov %, Score: 0.07457
 - Ppl (<150% Of Pov) %, Score: 0.00374
@@ -24,9 +27,11 @@ I tried the following:
 - Vast Majority Income (Scaled), Score: 0.00103
 - Language Isolation %, Score: 0.21060
 
+**Random Forest**
 
-- Mean r^2 score accross 5 folds for RandomForestRegressor(random_state=42): 0.491
-- All fold scores for RandomForestRegressor(random_state=42): [ 0.4201826   0.64573927  0.7237883   0.69102035 -0.02674616]
+Mean r^2 score accross 5 folds for RandomForestRegressor(random_state=42): 0.491
+
+All fold scores for RandomForestRegressor(random_state=42): [ 0.4201826   0.64573927  0.7237883   0.69102035 -0.02674616]
 
 - Fams Below Pov %, Score: 0.05428
 - Ppl (<150% Of Pov) %, Score: 0.03473
@@ -37,8 +42,11 @@ I tried the following:
 - Vast Majority Income (Scaled), Score: 0.11447
 - Language Isolation %, Score: 0.15783
 
-- Mean r^2 score accross 5 folds for GradientBoostingRegressor(random_state=42): 0.432
-- All fold scores for GradientBoostingRegressor(random_state=42): [ 0.2980692   0.6816932   0.73679643  0.70031228 -0.25924952]
+**Gradient Boosting**
+
+Mean r^2 score accross 5 folds for GradientBoostingRegressor(random_state=42): 0.432
+
+All fold scores for GradientBoostingRegressor(random_state=42): [ 0.2980692   0.6816932   0.73679643  0.70031228 -0.25924952]
 
 - Fams Below Pov %, Score: 0.03618
 - Ppl (<150% Of Pov) %, Score: 0.03724
