@@ -7,9 +7,9 @@ importance scores accross models. However, when doing this, I was getting a very
 score for each model. 
 
 I tried the following:
-get_importance(df, DecisionTreeRegressor(random_state=42))
-get_importance(df, RandomForestRegressor(random_state=42), color='teal')
-get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')
+'get_importance(df, DecisionTreeRegressor(random_state=42))'
+'get_importance(df, RandomForestRegressor(random_state=42), color='teal')'
+'get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')'
 
 ### Output:
 Mean r^2 score accross 5 folds for DecisionTreeRegressor(random_state=42): 0.236
@@ -37,7 +37,6 @@ Median Household Income (Scaled), Score: 0.11751
 Vast Majority Income (Scaled), Score: 0.11447
 Language Isolation %, Score: 0.15783
 
-
 Mean r^2 score accross 5 folds for GradientBoostingRegressor(random_state=42): 0.432
 All fold scores for GradientBoostingRegressor(random_state=42): [ 0.2980692   0.6816932   0.73679643  0.70031228 -0.25924952]
 
@@ -56,7 +55,7 @@ Then, I tried finding the combonations of 3 and 4 features that would have a 5-f
 returned a list of indicies to which this applied. I also printed out which combonations had the desired
 score. 
 
-L1 = all_iterations(df, combos)
+'L1 = all_iterations(df, combos)'
 
 ### Output
 8: ['Fams Below Pov %', 'Ppl (<150% Of Pov) %', "% At Least Bachelor's Degree", 'Language Isolation %']
@@ -118,7 +117,7 @@ Ppl (Below Poverty) %, Score: 0.10826
 Vast Majority Income (Scaled), Score: 0.30149
 Language Isolation %, Score: 0.19039
 
-The following is when I tried it with 3 variables:
+***The following is when I tried it with 3 variables:***
 
 14
 Fams Below Pov %, Score: 0.20983
