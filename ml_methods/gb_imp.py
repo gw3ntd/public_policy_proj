@@ -16,10 +16,15 @@ gb = GradientBoostingRegressor(random_state=42)
 gb.fit(X_train, y_train)
 
 importance = gb.feature_importances_
-column_names_list = df.columns.tolist()
+column_names_list = X.columns.tolist()
 
 for i, v in enumerate(importance):
     print(f'{column_names_list[i]}, Score: {v:.5f}')
+
+feature_importance_df = pd.DataFrame({'Feature': column_names_list, 'GB': importance})    
+print("Feature importance:\n", feature_importance_df)
+
+feature_importance_df.to_csv('ml_methods/GB.csv', index=False)
 
 '''
 Fams Below Pov %, Score: 0.03257

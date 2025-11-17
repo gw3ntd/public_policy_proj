@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import Ridge
 from sklearn.inspection import permutation_importance
+from sklearn.ensemble import RandomForestRegressor
 
 
 
@@ -14,26 +14,32 @@ y = df['g_va death rate']
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, random_state=42)
 
-ridge = Ridge(alpha=1e-2).fit(X_train, y_train)
-print(ridge.score(X_test, y_test))
+rf = RandomForestRegressor(random_state=42).fit(X_train, y_train)
+print(rf.score(X_test, y_test))
 
-r = permutation_importance(ridge, X_test, y_test,
+r = permutation_importance(rf, X_test, y_test,
                            n_repeats=30,
-                           random_state=0)
+                           random_state=0, scoring='r2')
 
-column_names_list = df.columns.tolist()
+column_names_list = X.columns.tolist()
 
 for i in r.importances_mean.argsort()[::-1]:
-    if r.importances_mean[i] - 2 * r.importances_std[i] > 0:
-        print(f"{column_names_list[i]:<8}" + ': '
-              f"{r.importances_mean[i]:.3f}"
-              f" +/- {r.importances_std[i]:.3f}")
+    print(f"{column_names_list[i]:<8}" + ': '
+            f"{r.importances_mean[i]:.3f}"
+            f" +/- {r.importances_std[i]:.3f}")
+    
+feature_importance_df = pd.DataFrame({'Feature': column_names_list, 'Permutation': r.importances_mean})    
+print("Feature importance:\n", feature_importance_df)
+
+feature_importance_df.to_csv('ml_methods/PERM.csv', index=False)
 
 ''' 
-Ppl (Below Poverty) %: 31.006 +/- 6.217
-Ppl (<150% Of Pov) %: 22.432 +/- 4.443
-Fams Below Pov %: 8.531 +/- 1.567
-Vast Majority Income (Scaled): 0.874 +/- 0.381
-Language Isolation %: 0.699 +/- 0.287
-Median Fam Income (Scaled): 0.465 +/- 0.169
+% At Least Bachelor's Degree: 0.386 +/- 0.228
+Vast Majority Income (Scaled): 0.109 +/- 0.055
+Language Isolation %: 0.084 +/- 0.075
+Median Fam Income (Scaled): 0.076 +/- 0.038
+Fams Below Pov %: 0.042 +/- 0.010
+Ppl (<150% Of Pov) %: 0.040 +/- 0.014
+Ppl (Below Poverty) %: 0.015 +/- 0.007
+Median Household Income (Scaled): 0.014 +/- 0.011
 '''        
