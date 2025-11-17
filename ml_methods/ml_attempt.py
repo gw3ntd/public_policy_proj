@@ -29,8 +29,7 @@ def get_importance(df, model, color='purple'):
     y = df['g_va death rate']
 
 
-    column_names_list = df.columns.tolist()
-    column_names_list.pop()
+    column_names_list = X.columns.tolist()
 
     scores = cross_val_score(model, X, y, cv=5, scoring='r2')
     print(f"Mean r^2 score accross 5 folds for {model}: {np.mean(scores):.3f}")
@@ -52,8 +51,13 @@ def get_importance(df, model, color='purple'):
     plt.tight_layout()
     plt.show()
 
+    feature_importance_df = pd.DataFrame({'Feature': column_names_list, 'RF': importance})    
+    return feature_importance_df
+
 # get_importance(df, DecisionTreeRegressor(random_state=42))
-# get_importance(df, RandomForestRegressor(random_state=42), color='teal')
+f = get_importance(df, RandomForestRegressor(random_state=42), color='teal')
+f.to_csv('ml_methods/RF.csv', index=False)
+# print("Feature importance:\n", f)
 # get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')
 
 
@@ -98,8 +102,8 @@ def all_iterations(df, combos):
             # print(f"All fold scores for {rf}: {scores}\n")
     return idx_list
 
-L1 = all_iterations(df, combos)
-L2 = all_iterations(df, other_combo)
+# L1 = all_iterations(df, combos)
+# L2 = all_iterations(df, other_combo)
 
 # print(L1)
 # print(L2)
@@ -123,6 +127,6 @@ def div_importance(df, combos, idx):
         for i, v in enumerate(importance):
             print(f'{combos[num][i]}, Score: {v:.5f}')
 
-div_importance(df, combos, L1)
-div_importance(df, other_combo, L2)
+# div_importance(df, combos, L1)
+# div_importance(df, other_combo, L2)
 

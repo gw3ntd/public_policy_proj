@@ -7,15 +7,20 @@ from sklearn.feature_selection import SelectPercentile
 
 df = pd.read_csv('eda/final_df.csv')
 
-print(df.info())
+# print(df.info())
 
 X = df.drop(['g_va death rate'], axis=1)
 y = df['g_va death rate']
 
-mutual_info = mutual_info_regression(X, y)
-mutual_info = pd.Series(mutual_info)
+mutual_info_1 = mutual_info_regression(X, y, random_state=42)
+mutual_info = pd.Series(mutual_info_1)
 mutual_info.index = X.columns
-print(mutual_info.sort_values(ascending=False))
+# print(mutual_info.sort_values(ascending=False))
+
+feature_importance_df = pd.DataFrame({'Feature': mutual_info.index , 'Mutual Info': mutual_info_1})    
+print("Feature importance:\n", feature_importance_df)
+
+feature_importance_df.to_csv('ml_methods/MI.csv', index=False)
 
 '''
 Median Fam Income (Scaled)          0.518327
@@ -31,7 +36,7 @@ Language Isolation %                0.193789
 selected_top_columns = SelectPercentile(mutual_info_regression, percentile=20)
 selected_top_columns.fit(X.fillna(0), y)
 selected_top_columns.get_support()
-print(X.columns[selected_top_columns.get_support()])
+# print(X.columns[selected_top_columns.get_support()])
 
 '''
 Index(['Median Fam Income (Scaled)', 
