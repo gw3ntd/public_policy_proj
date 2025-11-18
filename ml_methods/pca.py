@@ -9,6 +9,10 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 
 
+'''
+PCA
+'''
+
 df = pd.read_csv('eda/final_df.csv')
 X = df.drop(['g_va death rate'], axis=1)
 y = df['g_va death rate']

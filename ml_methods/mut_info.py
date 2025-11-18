@@ -4,6 +4,10 @@ from sklearn.model_selection import train_test_split
 import matplotlib as plt
 from sklearn.feature_selection import SelectPercentile
 
+'''
+In this file, I find the mutual information
+scores for each feature
+'''
 
 df = pd.read_csv('eda/final_df.csv')
 
@@ -17,6 +21,7 @@ mutual_info = pd.Series(mutual_info_1)
 mutual_info.index = X.columns
 # print(mutual_info.sort_values(ascending=False))
 
+# Putting it in a dataframe
 feature_importance_df = pd.DataFrame({'Feature': mutual_info.index , 'Mutual Info': mutual_info_1})    
 print("Feature importance:\n", feature_importance_df)
 

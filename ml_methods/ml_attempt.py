@@ -28,14 +28,17 @@ def get_importance(df, model, color='purple'):
     X = df.drop(['g_va death rate'], axis=1)
     y = df['g_va death rate']
 
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, random_state=42)
+
 
     column_names_list = X.columns.tolist()
 
-    scores = cross_val_score(model, X, y, cv=5, scoring='r2')
+    scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
     print(f"Mean r^2 score accross 5 folds for {model}: {np.mean(scores):.3f}")
     print(f"All fold scores for {model}: {scores}\n")
 
-    model.fit(X, y)
+    model.fit(X_train, y_train)
 
     importance = model.feature_importances_
 
