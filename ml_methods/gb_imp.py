@@ -2,6 +2,13 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 
+
+'''
+Here, I am finding the feature importance scores
+using GradientBoostingRegressor. 
+'''
+
+
 df = pd.read_csv('eda/final_df.csv')
 
 
@@ -18,9 +25,11 @@ gb.fit(X_train, y_train)
 importance = gb.feature_importances_
 column_names_list = X.columns.tolist()
 
+# Printing the scores
 for i, v in enumerate(importance):
     print(f'{column_names_list[i]}, Score: {v:.5f}')
 
+# Putting the data in a dataframe and converting it to a csv file for later use
 feature_importance_df = pd.DataFrame({'Feature': column_names_list, 'GB': importance})    
 print("Feature importance:\n", feature_importance_df)
 
