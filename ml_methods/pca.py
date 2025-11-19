@@ -25,3 +25,12 @@ pca = PCA()
 pca.fit(df_scaled)
 pca_results = vs.pca_results(df_scaled, pca)
 plt.show()
+
+pca = PCA(n_components=2)
+pca.fit(df_scaled)
+
+reduced_data = pca.transform(df_scaled)
+reduced_data = pd.DataFrame(reduced_data, columns = ['Dimension 1', 'Dimension 2'])
+
+vs.biplot(df_scaled, reduced_data, pca)
+plt.show()
