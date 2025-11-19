@@ -58,8 +58,8 @@ def get_importance(df, model, color='purple'):
     return feature_importance_df
 
 # get_importance(df, DecisionTreeRegressor(random_state=42))
-f = get_importance(df, RandomForestRegressor(random_state=42), color='teal')
-f.to_csv('ml_methods/RF.csv', index=False)
+# f = get_importance(df, RandomForestRegressor(random_state=42), color='teal')
+# f.to_csv('ml_methods/RF.csv', index=False)
 # print("Feature importance:\n", f)
 # get_importance(df, GradientBoostingRegressor(random_state=42), color='pink')
 
@@ -84,7 +84,7 @@ for i in range(len(columns)):
             other_combo.append([columns[i], columns[j], columns[k]])
 
 
-def all_iterations(df, combos):
+def all_iterations(df, combos, model):
     '''
     This function takes in all of these possible combinations
     and finds the 5-fold cross validation score of a 
@@ -96,8 +96,7 @@ def all_iterations(df, combos):
     for i in range(len(combos)):
         X = new[combos[i]]
         y = df['g_va death rate']
-        rf = RandomForestRegressor()
-        scores = cross_val_score(rf, X, y, cv=5, scoring='r2')
+        scores = cross_val_score(model, X, y, cv=5, scoring='r2')
         if np.mean(scores) >= 0.5:
             idx_list.append(i)
             # print(f"{i}: {combos[i]}")
@@ -105,13 +104,13 @@ def all_iterations(df, combos):
             # print(f"All fold scores for {rf}: {scores}\n")
     return idx_list
 
-# L1 = all_iterations(df, combos)
+L1 = all_iterations(df, combos, GradientBoostingRegressor())
 # L2 = all_iterations(df, other_combo)
 
-# print(L1)
+print(L1)
 # print(L2)
 
-def div_importance(df, combos, idx):
+def div_importance(df, combos, idx, model):
     '''
     This function finds the feature importance
     for all the combos that had a 5-fold 
@@ -120,16 +119,24 @@ def div_importance(df, combos, idx):
     index in the combos list
     '''
     new = df.drop(['g_va death rate'], axis=1)
-    rf = RandomForestRegressor()
     for num in idx:
         X = new[combos[num]]
         y = df['g_va death rate']
-        rf.fit(X, y)
-        importance = rf.feature_importances_
+        model.fit(X, y)
+        importance = model.feature_importances_
         print('\n' + str(num))
         for i, v in enumerate(importance):
             print(f'{combos[num][i]}, Score: {v:.5f}')
 
-# div_importance(df, combos, L1)
+div_importance(df, combos, L1, GradientBoostingRegressor())
 # div_importance(df, other_combo, L2)
 
+
+'''
+GB score
+29
+Fams Below Pov %, Score: 0.10242
+% At Least Bachelor's Degree, Score: 0.45465
+Median Household Income (Scaled), Score: 0.24396
+Language Isolation %, Score: 0.19897
+'''
